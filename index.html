@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbox</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="chatbox">
+      <div id="messages">
+        <!-- Chat messages will be displayed here -->
+      </div>
+      <form id="chat-form">
+        <input
+          type="text"
+          id="username-input"
+          placeholder="Enter your username..."
+        />
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Type your message here..."
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+    <script>
+      const chatForm = document.getElementById("chat-form");
+      const messageInput = document.getElementById("message-input");
+      const messages = document.getElementById("messages");
+
+      // Add a message to the chatbox
+      function addMessage(username, message) {
+        const messageElement = document.createElement("div");
+        messageElement.innerHTML = `<b>${username}:</b> ${message}`;
+        messages.appendChild(messageElement);
+      }
+
+      // Save the username to local storage
+      function saveUsername(username) {
+        localStorage.setItem("username", username);
+      }
+
+      // Handle form submission
+      chatForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        // Get the username and message from the input fields
+        let username = document.getElementById("username-input").value;
+        const message = messageInput.value;
+
+        // If the username is not empty, save it to local storage
+        if (username) {
+          saveUsername(username);
+        } else {
+          // If the username is empty, retrieve it from local storage
+          username = localStorage.getItem("username");
+        }
+
+        // Add the message to the chatbox
+        addMessage(username, message);
+
+        // Clear the message input field
+        messageInput.value = "";
+      });
+    </script>
+  </body>
+</html>
